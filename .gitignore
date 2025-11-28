@@ -1,0 +1,16 @@
+.idea/
+*.iws
+*.iml
+*.ipr
+
+.vscode/
+
+*.swp
+*.swo
+*~
+
+.env
+*.local
+
+.DS_Store
+Thumbs.db
