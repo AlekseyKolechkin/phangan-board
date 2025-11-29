@@ -1,0 +1,123 @@
+{
+  "common": {
+    "loading": "กำลังโหลด...",
+    "error": "เกิดข้อผิดพลาด",
+    "save": "บันทึก",
+    "saving": "กำลังบันทึก...",
+    "cancel": "ยกเลิก",
+    "delete": "ลบ",
+    "edit": "แก้ไข",
+    "create": "สร้าง",
+    "search": "ค้นหา",
+    "apply": "ใช้งาน",
+    "reset": "รีเซ็ต",
+    "close": "ปิด",
+    "back": "กลับ",
+    "next": "ถัดไป",
+    "previous": "ก่อนหน้า",
+    "yes": "ใช่",
+    "no": "ไม่",
+    "confirm": "ยืนยัน",
+    "currency": "฿"
+  },
+  "header": {
+    "title": "กระดานประกาศ",
+    "createAd": "สร้างประกาศ"
+  },
+  "search": {
+    "placeholder": "ค้นหาประกาศ...",
+    "button": "ค้นหา",
+    "noResults": "ไม่พบประกาศ",
+    "tryDifferent": "ลองเปลี่ยนพารามิเตอร์การค้นหา"
+  },
+  "filters": {
+    "title": "ตัวกรอง",
+    "category": "หมวดหมู่",
+    "allCategories": "ทุกหมวดหมู่",
+    "priceFrom": "ราคาจาก",
+    "priceTo": "ราคาถึง",
+    "sorting": "เรียงลำดับ",
+    "newestFirst": "ใหม่สุดก่อน",
+    "oldestFirst": "เก่าสุดก่อน",
+    "cheapestFirst": "ถูกสุดก่อน",
+    "expensiveFirst": "แพงสุดก่อน",
+    "titleAZ": "ชื่อ (ก-ฮ)",
+    "titleZA": "ชื่อ (ฮ-ก)"
+  },
+  "ads": {
+    "found": "พบประกาศ",
+    "notFound": "ไม่พบประกาศ",
+    "tryDifferentSearch": "ลองเปลี่ยนพารามิเตอร์การค้นหา",
+    "loadError": "ไม่สามารถโหลดประกาศได้",
+    "status": {
+      "ACTIVE": "ใช้งาน",
+      "INACTIVE": "ไม่ใช้งาน",
+      "SOLD": "ขายแล้ว",
+      "DELETED": "ลบแล้ว"
+    },
+    "postedBy": "โพสต์โดย",
+    "ago": "ที่แล้ว",
+    "price": "ราคา",
+    "description": "รายละเอียด",
+    "contact": "ติดต่อ",
+    "phone": "โทรศัพท์",
+    "email": "อีเมล"
+  },
+  "pagination": {
+    "page": "หน้า",
+    "of": "จาก",
+    "first": "แรก",
+    "last": "สุดท้าย"
+  },
+  "adForm": {
+    "createTitle": "สร้างประกาศใหม่",
+    "editTitle": "แก้ไขประกาศ",
+    "title": "ชื่อ",
+    "titlePlaceholder": "ใส่ชื่อประกาศ",
+    "description": "รายละเอียด",
+    "descriptionPlaceholder": "ใส่รายละเอียดประกาศ",
+    "price": "ราคา",
+    "pricePlaceholder": "ใส่ราคา",
+    "category": "หมวดหมู่",
+    "selectCategory": "เลือกหมวดหมู่",
+    "status": "สถานะ",
+    "submit": "ส่ง",
+    "creating": "กำลังสร้าง...",
+    "updating": "กำลังอัปเดต...",
+    "success": "บันทึกประกาศสำเร็จ",
+    "saveError": "ไม่สามารถบันทึกประกาศได้"
+  },
+  "adDetail": {
+    "backToList": "กลับไปยังรายการ",
+    "editAd": "แก้ไข",
+    "deleteAd": "ลบ",
+    "confirmDelete": "คุณแน่ใจหรือไม่ว่าต้องการลบประกาศนี้?",
+    "deleted": "ลบประกาศสำเร็จ",
+    "notFound": "ไม่พบประกาศ",
+    "category": "หมวดหมู่",
+    "seller": "ผู้ขาย",
+    "posted": "โพสต์เมื่อ",
+    "contact": "ติดต่อผู้ขาย"
+  },
+  "language": {
+    "select": "ภาษา",
+    "en": "English",
+    "de": "Deutsch",
+    "ru": "Русский",
+    "fr": "Français",
+    "th": "ไทย"
+  },
+  "time": {
+    "justNow": "เมื่อกี้",
+    "minutesAgo": "{{count}} นาทีที่แล้ว",
+    "minutesAgo_plural": "{{count}} นาทีที่แล้ว",
+    "hoursAgo": "{{count}} ชั่วโมงที่แล้ว",
+    "hoursAgo_plural": "{{count}} ชั่วโมงที่แล้ว",
+    "daysAgo": "{{count}} วันที่แล้ว",
+    "daysAgo_plural": "{{count}} วันที่แล้ว",
+    "weeksAgo": "{{count}} สัปดาห์ที่แล้ว",
+    "weeksAgo_plural": "{{count}} สัปดาห์ที่แล้ว",
+    "monthsAgo": "{{count}} เดือนที่แล้ว",
+    "monthsAgo_plural": "{{count}} เดือนที่แล้ว"
+  }
+}

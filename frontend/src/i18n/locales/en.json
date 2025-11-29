@@ -1,0 +1,123 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "apply": "Apply",
+    "reset": "Reset",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "yes": "Yes",
+    "no": "No",
+    "confirm": "Confirm",
+    "currency": "฿"
+  },
+  "header": {
+    "title": "Bulletin Board",
+    "createAd": "Create Ad"
+  },
+  "search": {
+    "placeholder": "Search ads...",
+    "button": "Find",
+    "noResults": "No ads found",
+    "tryDifferent": "Try changing your search parameters"
+  },
+  "filters": {
+    "title": "Filters",
+    "category": "Category",
+    "allCategories": "All categories",
+    "priceFrom": "Price from",
+    "priceTo": "Price to",
+    "sorting": "Sorting",
+    "newestFirst": "Newest first",
+    "oldestFirst": "Oldest first",
+    "cheapestFirst": "Cheapest first",
+    "expensiveFirst": "Most expensive first",
+    "titleAZ": "Title (A-Z)",
+    "titleZA": "Title (Z-A)"
+  },
+  "ads": {
+    "found": "Ads found",
+    "notFound": "No ads found",
+    "tryDifferentSearch": "Try changing your search parameters",
+    "loadError": "Failed to load ad",
+    "status": {
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive",
+      "SOLD": "Sold",
+      "DELETED": "Deleted"
+    },
+    "postedBy": "Posted by",
+    "ago": "ago",
+    "price": "Price",
+    "description": "Description",
+    "contact": "Contact",
+    "phone": "Phone",
+    "email": "Email"
+  },
+  "pagination": {
+    "page": "Page",
+    "of": "of",
+    "first": "First",
+    "last": "Last"
+  },
+  "adForm": {
+    "createTitle": "Create New Ad",
+    "editTitle": "Edit Ad",
+    "title": "Title",
+    "titlePlaceholder": "Enter ad title",
+    "description": "Description",
+    "descriptionPlaceholder": "Enter ad description",
+    "price": "Price",
+    "pricePlaceholder": "Enter price",
+    "category": "Category",
+    "selectCategory": "Select category",
+    "status": "Status",
+    "submit": "Submit",
+    "creating": "Creating...",
+    "updating": "Updating...",
+    "success": "Ad saved successfully",
+    "saveError": "Failed to save ad"
+  },
+  "adDetail": {
+    "backToList": "Back to list",
+    "editAd": "Edit",
+    "deleteAd": "Delete",
+    "confirmDelete": "Are you sure you want to delete this ad?",
+    "deleted": "Ad deleted successfully",
+    "notFound": "Ad not found",
+    "category": "Category",
+    "seller": "Seller",
+    "posted": "Posted",
+    "contact": "Contact Seller"
+  },
+  "language": {
+    "select": "Language",
+    "en": "English",
+    "de": "Deutsch",
+    "ru": "Русский",
+    "fr": "Français",
+    "th": "ไทย"
+  },
+  "time": {
+    "justNow": "just now",
+    "minutesAgo": "{{count}} minute ago",
+    "minutesAgo_plural": "{{count}} minutes ago",
+    "hoursAgo": "{{count}} hour ago",
+    "hoursAgo_plural": "{{count}} hours ago",
+    "daysAgo": "{{count}} day ago",
+    "daysAgo_plural": "{{count}} days ago",
+    "weeksAgo": "{{count}} week ago",
+    "weeksAgo_plural": "{{count}} weeks ago",
+    "monthsAgo": "{{count}} month ago",
+    "monthsAgo_plural": "{{count}} months ago"
+  }
+}

@@ -44,3 +44,40 @@ export async function getCategories(): Promise<Category[]> {
 export async function getAdById(id: number): Promise<Ad> {
   return fetchApi<Ad>(`/ads/${id}`);
 }
+
+export interface AdCreatePayload {
+  title: string;
+  description: string;
+  price: number;
+  categoryId: number;
+  userId: number;
+  status?: string;
+}
+
+export interface AdUpdatePayload {
+  title?: string;
+  description?: string;
+  price?: number;
+  categoryId?: number;
+  status?: string;
+}
+
+export async function createAd(payload: AdCreatePayload): Promise<Ad> {
+  return fetchApi<Ad>('/ads', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function updateAd(id: number, payload: AdUpdatePayload): Promise<Ad> {
+  return fetchApi<Ad>(`/ads/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function deleteAd(id: number): Promise<void> {
+  await fetchApi<void>(`/ads/${id}`, {
+    method: 'DELETE',
+  });
+}

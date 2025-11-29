@@ -1,0 +1,123 @@
+{
+  "common": {
+    "loading": "Загрузка...",
+    "error": "Произошла ошибка",
+    "save": "Сохранить",
+    "saving": "Сохранение...",
+    "cancel": "Отмена",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "create": "Создать",
+    "search": "Поиск",
+    "apply": "Применить",
+    "reset": "Сбросить",
+    "close": "Закрыть",
+    "back": "Назад",
+    "next": "Далее",
+    "previous": "Предыдущая",
+    "yes": "Да",
+    "no": "Нет",
+    "confirm": "Подтвердить",
+    "currency": "฿"
+  },
+  "header": {
+    "title": "Доска объявлений",
+    "createAd": "Создать объявление"
+  },
+  "search": {
+    "placeholder": "Поиск объявлений...",
+    "button": "Найти",
+    "noResults": "Объявления не найдены",
+    "tryDifferent": "Попробуйте изменить параметры поиска"
+  },
+  "filters": {
+    "title": "Фильтры",
+    "category": "Категория",
+    "allCategories": "Все категории",
+    "priceFrom": "Цена от",
+    "priceTo": "Цена до",
+    "sorting": "Сортировка",
+    "newestFirst": "Сначала новые",
+    "oldestFirst": "Сначала старые",
+    "cheapestFirst": "Сначала дешевые",
+    "expensiveFirst": "Сначала дорогие",
+    "titleAZ": "По названию (А-Я)",
+    "titleZA": "По названию (Я-А)"
+  },
+  "ads": {
+    "found": "Найдено объявлений",
+    "notFound": "Объявления не найдены",
+    "tryDifferentSearch": "Попробуйте изменить параметры поиска",
+    "loadError": "Не удалось загрузить объявление",
+    "status": {
+      "ACTIVE": "Активно",
+      "INACTIVE": "Неактивно",
+      "SOLD": "Продано",
+      "DELETED": "Удалено"
+    },
+    "postedBy": "Автор",
+    "ago": "назад",
+    "price": "Цена",
+    "description": "Описание",
+    "contact": "Контакт",
+    "phone": "Телефон",
+    "email": "Email"
+  },
+  "pagination": {
+    "page": "Страница",
+    "of": "из",
+    "first": "Первая",
+    "last": "Последняя"
+  },
+  "adForm": {
+    "createTitle": "Создать объявление",
+    "editTitle": "Редактировать объявление",
+    "title": "Заголовок",
+    "titlePlaceholder": "Введите заголовок объявления",
+    "description": "Описание",
+    "descriptionPlaceholder": "Введите описание объявления",
+    "price": "Цена",
+    "pricePlaceholder": "Введите цену",
+    "category": "Категория",
+    "selectCategory": "Выберите категорию",
+    "status": "Статус",
+    "submit": "Отправить",
+    "creating": "Создание...",
+    "updating": "Обновление...",
+    "success": "Объявление успешно сохранено",
+    "saveError": "Не удалось сохранить объявление"
+  },
+  "adDetail": {
+    "backToList": "Вернуться к списку",
+    "editAd": "Редактировать",
+    "deleteAd": "Удалить",
+    "confirmDelete": "Вы уверены, что хотите удалить это объявление?",
+    "deleted": "Объявление успешно удалено",
+    "notFound": "Объявление не найдено",
+    "category": "Категория",
+    "seller": "Продавец",
+    "posted": "Опубликовано",
+    "contact": "Связаться с продавцом"
+  },
+  "language": {
+    "select": "Язык",
+    "en": "English",
+    "de": "Deutsch",
+    "ru": "Русский",
+    "fr": "Français",
+    "th": "ไทย"
+  },
+  "time": {
+    "justNow": "только что",
+    "minutesAgo": "{{count}} минуту назад",
+    "minutesAgo_plural": "{{count}} минут назад",
+    "hoursAgo": "{{count}} час назад",
+    "hoursAgo_plural": "{{count}} часов назад",
+    "daysAgo": "{{count}} день назад",
+    "daysAgo_plural": "{{count}} дней назад",
+    "weeksAgo": "{{count}} неделю назад",
+    "weeksAgo_plural": "{{count}} недель назад",
+    "monthsAgo": "{{count}} месяц назад",
+    "monthsAgo_plural": "{{count}} месяцев назад"
+  }
+}

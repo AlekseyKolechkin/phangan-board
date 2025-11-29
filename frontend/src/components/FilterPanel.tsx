@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Category, AdSearchParams } from '@/types/api';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -19,6 +20,7 @@ interface FilterPanelProps {
 }
 
 export function FilterPanel({ filters, onFiltersChange, onApply }: FilterPanelProps) {
+  const { t } = useTranslation();
   const [categories, setCategories] = useState<Category[]>([]);
   const [localFilters, setLocalFilters] = useState<AdSearchParams>(filters);
 
@@ -55,10 +57,10 @@ export function FilterPanel({ filters, onFiltersChange, onApply }: FilterPanelPr
 
   return (
     <div className="bg-white p-4 rounded-lg shadow space-y-4">
-      <h3 className="font-semibold text-lg">Фильтры</h3>
+      <h3 className="font-semibold text-lg">{t('filters.title')}</h3>
       
       <div className="space-y-2">
-        <Label htmlFor="category">Категория</Label>
+        <Label htmlFor="category">{t('filters.category')}</Label>
         <Select
           value={localFilters.categoryId?.toString() || 'all'}
           onValueChange={(value) => 
@@ -66,10 +68,10 @@ export function FilterPanel({ filters, onFiltersChange, onApply }: FilterPanelPr
           }
         >
           <SelectTrigger id="category">
-            <SelectValue placeholder="Все категории" />
+            <SelectValue placeholder={t('filters.allCategories')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Все категории</SelectItem>
+            <SelectItem value="all">{t('filters.allCategories')}</SelectItem>
             {categories.map((cat) => (
               <SelectItem key={cat.id} value={cat.id.toString()}>
                 {cat.name}
@@ -81,7 +83,7 @@ export function FilterPanel({ filters, onFiltersChange, onApply }: FilterPanelPr
 
       <div className="grid grid-cols-2 gap-2">
         <div className="space-y-2">
-          <Label htmlFor="minPrice">Цена от</Label>
+          <Label htmlFor="minPrice">{t('filters.priceFrom')}</Label>
           <Input
             id="minPrice"
             type="number"
@@ -94,7 +96,7 @@ export function FilterPanel({ filters, onFiltersChange, onApply }: FilterPanelPr
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="maxPrice">Цена до</Label>
+          <Label htmlFor="maxPrice">{t('filters.priceTo')}</Label>
           <Input
             id="maxPrice"
             type="number"
@@ -109,7 +111,7 @@ export function FilterPanel({ filters, onFiltersChange, onApply }: FilterPanelPr
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="sortBy">Сортировка</Label>
+        <Label htmlFor="sortBy">{t('filters.sorting')}</Label>
         <Select
           value={`${localFilters.sortBy || 'createdAt'}-${localFilters.sortDirection || 'desc'}`}
           onValueChange={(value) => {
@@ -118,25 +120,25 @@ export function FilterPanel({ filters, onFiltersChange, onApply }: FilterPanelPr
           }}
         >
           <SelectTrigger id="sortBy">
-            <SelectValue placeholder="Сортировка" />
+            <SelectValue placeholder={t('filters.sorting')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="createdAt-desc">Сначала новые</SelectItem>
-            <SelectItem value="createdAt-asc">Сначала старые</SelectItem>
-            <SelectItem value="price-asc">Сначала дешевые</SelectItem>
-            <SelectItem value="price-desc">Сначала дорогие</SelectItem>
-            <SelectItem value="title-asc">По названию (А-Я)</SelectItem>
-            <SelectItem value="title-desc">По названию (Я-А)</SelectItem>
+            <SelectItem value="createdAt-desc">{t('filters.newestFirst')}</SelectItem>
+            <SelectItem value="createdAt-asc">{t('filters.oldestFirst')}</SelectItem>
+            <SelectItem value="price-asc">{t('filters.cheapestFirst')}</SelectItem>
+            <SelectItem value="price-desc">{t('filters.expensiveFirst')}</SelectItem>
+            <SelectItem value="title-asc">{t('filters.titleAZ')}</SelectItem>
+            <SelectItem value="title-desc">{t('filters.titleZA')}</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       <div className="flex gap-2 pt-2">
         <Button onClick={handleApply} className="flex-1">
-          Применить
+          {t('common.apply')}
         </Button>
         <Button onClick={handleReset} variant="outline" className="flex-1">
-          Сбросить
+          {t('common.reset')}
         </Button>
       </div>
     </div>
