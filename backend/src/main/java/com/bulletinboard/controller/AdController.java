@@ -3,13 +3,16 @@ package com.bulletinboard.controller;
 import com.bulletinboard.domain.AdStatus;
 import com.bulletinboard.dto.AdCreateRequest;
 import com.bulletinboard.dto.AdResponse;
+import com.bulletinboard.dto.AdSearchRequest;
 import com.bulletinboard.dto.AdUpdateRequest;
+import com.bulletinboard.dto.PageResponse;
 import com.bulletinboard.service.AdService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -46,6 +49,34 @@ public class AdController {
     @GetMapping("/active")
     public ResponseEntity<List<AdResponse>> getActiveAds() {
         return ResponseEntity.ok(adService.getActiveAds());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<PageResponse<AdResponse>> searchAds(
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) Long userId,
+            @RequestParam(required = false) AdStatus status,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required = false, name = "q") String search,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortDirection) {
+
+        AdSearchRequest request = new AdSearchRequest();
+        request.setCategoryId(categoryId);
+        request.setUserId(userId);
+        request.setStatus(status);
+        request.setMinPrice(minPrice);
+        request.setMaxPrice(maxPrice);
+        request.setSearch(search);
+        request.setPage(page);
+        request.setSize(size);
+        request.setSortBy(sortBy);
+        request.setSortDirection(sortDirection);
+
+        return ResponseEntity.ok(adService.searchAds(request));
     }
 
     @GetMapping("/{id}")
