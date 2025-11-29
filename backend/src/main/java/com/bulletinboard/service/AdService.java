@@ -6,7 +6,9 @@ import com.bulletinboard.domain.Category;
 import com.bulletinboard.domain.User;
 import com.bulletinboard.dto.AdCreateRequest;
 import com.bulletinboard.dto.AdResponse;
+import com.bulletinboard.dto.AdSearchRequest;
 import com.bulletinboard.dto.AdUpdateRequest;
+import com.bulletinboard.dto.PageResponse;
 import com.bulletinboard.exception.ResourceNotFoundException;
 import com.bulletinboard.repository.AdRepository;
 import com.bulletinboard.repository.CategoryRepository;
@@ -62,6 +64,17 @@ public class AdService {
         return adRepository.findByStatus(AdStatus.ACTIVE).stream()
                 .map(this::toAdResponse)
                 .toList();
+    }
+
+    public PageResponse<AdResponse> searchAds(AdSearchRequest request) {
+        List<Ad> ads = adRepository.searchAds(request);
+        long totalElements = adRepository.countAds(request);
+
+        List<AdResponse> content = ads.stream()
+                .map(this::toAdResponse)
+                .toList();
+
+        return new PageResponse<>(content, request.getPage(), request.getSize(), totalElements);
     }
 
     public AdResponse getAdById(Long id) {

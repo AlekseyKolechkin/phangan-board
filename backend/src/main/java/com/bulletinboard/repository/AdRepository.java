@@ -2,11 +2,16 @@ package com.bulletinboard.repository;
 
 import com.bulletinboard.domain.Ad;
 import com.bulletinboard.domain.AdStatus;
+import com.bulletinboard.dto.AdSearchRequest;
 import com.bulletinboard.generated.tables.records.AdsRecord;
+import org.jooq.Condition;
 import org.jooq.DSLContext;
+import org.jooq.SortField;
+import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -113,6 +118,77 @@ public class AdRepository {
         dsl.deleteFrom(ADS)
                 .where(ADS.ID.eq(id))
                 .execute();
+    }
+
+    public List<Ad> searchAds(AdSearchRequest request) {
+        List<Condition> conditions = buildSearchConditions(request);
+        SortField<?> sortField = buildSortField(request.getSortBy(), request.getSortDirection());
+
+        return dsl.selectFrom(ADS)
+                .where(conditions)
+                .orderBy(sortField)
+                .limit(request.getSize())
+                .offset(request.getPage() * request.getSize())
+                .fetch()
+                .map(this::mapToAd);
+    }
+
+    public long countAds(AdSearchRequest request) {
+        List<Condition> conditions = buildSearchConditions(request);
+
+        return dsl.selectCount()
+                .from(ADS)
+                .where(conditions)
+                .fetchOne(0, Long.class);
+    }
+
+    private List<Condition> buildSearchConditions(AdSearchRequest request) {
+        List<Condition> conditions = new ArrayList<>();
+
+        if (request.getStatus() != null) {
+            conditions.add(ADS.STATUS.eq(request.getStatus().name()));
+        }
+
+        if (request.getCategoryId() != null) {
+            conditions.add(ADS.CATEGORY_ID.eq(request.getCategoryId()));
+        }
+
+        if (request.getUserId() != null) {
+            conditions.add(ADS.USER_ID.eq(request.getUserId()));
+        }
+
+        if (request.getMinPrice() != null) {
+            conditions.add(ADS.PRICE.ge(request.getMinPrice()));
+        }
+
+        if (request.getMaxPrice() != null) {
+            conditions.add(ADS.PRICE.le(request.getMaxPrice()));
+        }
+
+        if (request.getSearch() != null && !request.getSearch().isBlank()) {
+            String searchPattern = "%" + request.getSearch().toLowerCase() + "%";
+            conditions.add(
+                    DSL.lower(ADS.TITLE).like(searchPattern)
+                            .or(DSL.lower(ADS.DESCRIPTION).like(searchPattern))
+            );
+        }
+
+        if (conditions.isEmpty()) {
+            conditions.add(DSL.trueCondition());
+        }
+
+        return conditions;
+    }
+
+    private SortField<?> buildSortField(String sortBy, String sortDirection) {
+        boolean isAsc = "asc".equalsIgnoreCase(sortDirection);
+
+        return switch (sortBy != null ? sortBy.toLowerCase() : "createdat") {
+            case "price" -> isAsc ? ADS.PRICE.asc() : ADS.PRICE.desc();
+            case "title" -> isAsc ? ADS.TITLE.asc() : ADS.TITLE.desc();
+            case "updatedat" -> isAsc ? ADS.UPDATED_AT.asc() : ADS.UPDATED_AT.desc();
+            default -> isAsc ? ADS.CREATED_AT.asc() : ADS.CREATED_AT.desc();
+        };
     }
 
     private Ad mapToAd(AdsRecord record) {
