@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk-alpine AS build
+FROM eclipse-temurin:17-jdk-jammy AS build
 
 WORKDIR /app
 
@@ -10,12 +10,12 @@ RUN ./mvnw dependency:go-offline -B
 COPY src/ src/
 RUN ./mvnw package -DskipTests -B
 
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre-jammy as runtime
 
 WORKDIR /app
 
-RUN addgroup -g 1001 -S appgroup && \
-    adduser -u 1001 -S appuser -G appgroup
+RUN groupadd --gid 1001 appgroup \
+    && useradd --uid 1001 --gid 1001 --create-home appuser
 
 COPY --from=build /app/target/*.jar app.jar
 
