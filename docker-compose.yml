@@ -3,18 +3,65 @@ services:
     image: postgres:15
     container_name: bulletinboard-db
     environment:
-      POSTGRES_DB: bulletinboard
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${POSTGRES_DB:-bulletinboard}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - bulletinboard-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: bulletinboard-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-bulletinboard}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      SPRING_FLYWAY_ENABLED: "true"
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
+      ANTISPAM_RATE_LIMIT_MAX_ADS_PER_HOUR: ${ANTISPAM_RATE_LIMIT_MAX_ADS_PER_HOUR:-5}
+      ANTISPAM_MIN_TITLE_LENGTH: ${ANTISPAM_MIN_TITLE_LENGTH:-5}
+      ANTISPAM_MIN_DESCRIPTION_LENGTH: ${ANTISPAM_MIN_DESCRIPTION_LENGTH:-10}
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - bulletinboard-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: bulletinboard-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - bulletinboard-network
+
+networks:
+  bulletinboard-network:
+    driver: bridge
 
 volumes:
   postgres_data:
