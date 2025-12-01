@@ -1,5 +1,7 @@
 package com.bulletinboard.dto;
 
+import com.bulletinboard.domain.Area;
+import com.bulletinboard.domain.PricePeriod;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -25,6 +27,10 @@ public class AdCreateRequest {
 
     @NotNull(message = "User ID is required")
     private Long userId;
+
+    private Area area;
+
+    private PricePeriod pricePeriod;
 
     public AdCreateRequest() {
     }
@@ -75,5 +81,21 @@ public class AdCreateRequest {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
+    }
+
+    public PricePeriod getPricePeriod() {
+        return pricePeriod;
+    }
+
+    public void setPricePeriod(PricePeriod pricePeriod) {
+        this.pricePeriod = pricePeriod;
     }
 }

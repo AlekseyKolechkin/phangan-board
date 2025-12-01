@@ -2,6 +2,8 @@ package com.bulletinboard.repository;
 
 import com.bulletinboard.domain.Ad;
 import com.bulletinboard.domain.AdStatus;
+import com.bulletinboard.domain.Area;
+import com.bulletinboard.domain.PricePeriod;
 import com.bulletinboard.dto.AdSearchRequest;
 import com.bulletinboard.generated.tables.records.AdsRecord;
 import org.jooq.Condition;
@@ -29,7 +31,7 @@ public class AdRepository {
     public Ad save(Ad ad) {
         LocalDateTime now = LocalDateTime.now();
         if (ad.getId() == null) {
-            AdsRecord record = dsl.insertInto(ADS)
+            var insertStep = dsl.insertInto(ADS)
                     .set(ADS.TITLE, ad.getTitle())
                     .set(ADS.DESCRIPTION, ad.getDescription())
                     .set(ADS.PRICE, ad.getPrice())
@@ -39,11 +41,13 @@ public class AdRepository {
                     .set(ADS.CREATED_AT, now)
                     .set(ADS.UPDATED_AT, now)
                     .set(ADS.CREATED_IP, ad.getCreatedIp())
-                    .returning()
-                    .fetchOne();
+                    .set(ADS.AREA, ad.getArea() != null ? ad.getArea().name() : null)
+                    .set(ADS.PRICE_PERIOD, ad.getPricePeriod() != null ? ad.getPricePeriod().name() : null)
+                    .set(ADS.EDIT_TOKEN, ad.getEditToken());
+            AdsRecord record = insertStep.returning().fetchOne();
             return mapToAd(record);
         } else {
-            dsl.update(ADS)
+            var updateStep = dsl.update(ADS)
                     .set(ADS.TITLE, ad.getTitle())
                     .set(ADS.DESCRIPTION, ad.getDescription())
                     .set(ADS.PRICE, ad.getPrice())
@@ -51,8 +55,9 @@ public class AdRepository {
                     .set(ADS.USER_ID, ad.getUserId())
                     .set(ADS.STATUS, ad.getStatus().name())
                     .set(ADS.UPDATED_AT, now)
-                    .where(ADS.ID.eq(ad.getId()))
-                    .execute();
+                    .set(ADS.AREA, ad.getArea() != null ? ad.getArea().name() : null)
+                    .set(ADS.PRICE_PERIOD, ad.getPricePeriod() != null ? ad.getPricePeriod().name() : null);
+            updateStep.where(ADS.ID.eq(ad.getId())).execute();
             ad.setUpdatedAt(now);
             return ad;
         }
@@ -121,6 +126,13 @@ public class AdRepository {
                 .execute();
     }
 
+    public Optional<Ad> findByEditToken(String editToken) {
+        AdsRecord record = dsl.selectFrom(ADS)
+                .where(ADS.EDIT_TOKEN.eq(editToken))
+                .fetchOne();
+        return Optional.ofNullable(record).map(this::mapToAd);
+    }
+
     public long countByIpSince(String ip, LocalDateTime since) {
         return dsl.selectCount()
                 .from(ADS)
@@ -182,6 +194,14 @@ public class AdRepository {
             );
         }
 
+        if (request.getArea() != null) {
+            conditions.add(ADS.AREA.eq(request.getArea().name()));
+        }
+
+        if (request.getPricePeriod() != null) {
+            conditions.add(ADS.PRICE_PERIOD.eq(request.getPricePeriod().name()));
+        }
+
         if (conditions.isEmpty()) {
             conditions.add(DSL.trueCondition());
         }
@@ -212,6 +232,13 @@ public class AdRepository {
         ad.setCreatedAt(record.getCreatedAt());
         ad.setUpdatedAt(record.getUpdatedAt());
         ad.setCreatedIp(record.getCreatedIp());
+        if (record.getArea() != null) {
+            ad.setArea(Area.valueOf(record.getArea()));
+        }
+        if (record.getPricePeriod() != null) {
+            ad.setPricePeriod(PricePeriod.valueOf(record.getPricePeriod()));
+        }
+        ad.setEditToken(record.getEditToken());
         return ad;
     }
 }

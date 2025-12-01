@@ -15,6 +15,9 @@ public class Ad {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String createdIp;
+    private Area area;
+    private PricePeriod pricePeriod;
+    private String editToken;
 
     public Ad() {
     }
@@ -106,5 +109,29 @@ public class Ad {
 
     public void setCreatedIp(String createdIp) {
         this.createdIp = createdIp;
+    }
+
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
+    }
+
+    public PricePeriod getPricePeriod() {
+        return pricePeriod;
+    }
+
+    public void setPricePeriod(PricePeriod pricePeriod) {
+        this.pricePeriod = pricePeriod;
+    }
+
+    public String getEditToken() {
+        return editToken;
+    }
+
+    public void setEditToken(String editToken) {
+        this.editToken = editToken;
     }
 }

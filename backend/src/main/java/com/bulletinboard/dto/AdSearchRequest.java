@@ -1,6 +1,8 @@
 package com.bulletinboard.dto;
 
 import com.bulletinboard.domain.AdStatus;
+import com.bulletinboard.domain.Area;
+import com.bulletinboard.domain.PricePeriod;
 
 import java.math.BigDecimal;
 
@@ -15,6 +17,8 @@ public class AdSearchRequest {
     private int size = 20;
     private String sortBy = "createdAt";
     private String sortDirection = "desc";
+    private Area area;
+    private PricePeriod pricePeriod;
 
     public AdSearchRequest() {
     }
@@ -97,5 +101,21 @@ public class AdSearchRequest {
 
     public void setSortDirection(String sortDirection) {
         this.sortDirection = sortDirection;
+    }
+
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
+    }
+
+    public PricePeriod getPricePeriod() {
+        return pricePeriod;
+    }
+
+    public void setPricePeriod(PricePeriod pricePeriod) {
+        this.pricePeriod = pricePeriod;
     }
 }

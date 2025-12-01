@@ -2,6 +2,8 @@ package com.bulletinboard.dto;
 
 import com.bulletinboard.domain.Ad;
 import com.bulletinboard.domain.AdStatus;
+import com.bulletinboard.domain.Area;
+import com.bulletinboard.domain.PricePeriod;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,6 +21,9 @@ public class AdResponse {
     private AdStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Area area;
+    private PricePeriod pricePeriod;
+    private String editToken;
 
     public AdResponse() {
     }
@@ -34,6 +39,14 @@ public class AdResponse {
         response.setStatus(ad.getStatus());
         response.setCreatedAt(ad.getCreatedAt());
         response.setUpdatedAt(ad.getUpdatedAt());
+        response.setArea(ad.getArea());
+        response.setPricePeriod(ad.getPricePeriod());
+        return response;
+    }
+
+    public static AdResponse fromAdWithToken(Ad ad, String categoryName, String userName) {
+        AdResponse response = fromAd(ad, categoryName, userName);
+        response.setEditToken(ad.getEditToken());
         return response;
     }
 
@@ -130,5 +143,29 @@ public class AdResponse {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
+    }
+
+    public PricePeriod getPricePeriod() {
+        return pricePeriod;
+    }
+
+    public void setPricePeriod(PricePeriod pricePeriod) {
+        this.pricePeriod = pricePeriod;
+    }
+
+    public String getEditToken() {
+        return editToken;
+    }
+
+    public void setEditToken(String editToken) {
+        this.editToken = editToken;
     }
 }

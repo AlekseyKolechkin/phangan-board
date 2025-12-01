@@ -27,6 +27,9 @@ public class Ads implements Serializable {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String createdIp;
+    private String area;
+    private String pricePeriod;
+    private String editToken;
 
     public Ads() {}
 
@@ -41,6 +44,9 @@ public class Ads implements Serializable {
         this.createdAt = value.createdAt;
         this.updatedAt = value.updatedAt;
         this.createdIp = value.createdIp;
+        this.area = value.area;
+        this.pricePeriod = value.pricePeriod;
+        this.editToken = value.editToken;
     }
 
     public Ads(
@@ -53,7 +59,10 @@ public class Ads implements Serializable {
         String status,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        String createdIp
+        String createdIp,
+        String area,
+        String pricePeriod,
+        String editToken
     ) {
         this.id = id;
         this.title = title;
@@ -65,6 +74,9 @@ public class Ads implements Serializable {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.createdIp = createdIp;
+        this.area = area;
+        this.pricePeriod = pricePeriod;
+        this.editToken = editToken;
     }
 
     /**
@@ -217,6 +229,51 @@ public class Ads implements Serializable {
         return this;
     }
 
+    /**
+     * Getter for <code>public.ads.area</code>.
+     */
+    public String getArea() {
+        return this.area;
+    }
+
+    /**
+     * Setter for <code>public.ads.area</code>.
+     */
+    public Ads setArea(String area) {
+        this.area = area;
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.ads.price_period</code>.
+     */
+    public String getPricePeriod() {
+        return this.pricePeriod;
+    }
+
+    /**
+     * Setter for <code>public.ads.price_period</code>.
+     */
+    public Ads setPricePeriod(String pricePeriod) {
+        this.pricePeriod = pricePeriod;
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.ads.edit_token</code>.
+     */
+    public String getEditToken() {
+        return this.editToken;
+    }
+
+    /**
+     * Setter for <code>public.ads.edit_token</code>.
+     */
+    public Ads setEditToken(String editToken) {
+        this.editToken = editToken;
+        return this;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -286,6 +343,24 @@ public class Ads implements Serializable {
         }
         else if (!this.createdIp.equals(other.createdIp))
             return false;
+        if (this.area == null) {
+            if (other.area != null)
+                return false;
+        }
+        else if (!this.area.equals(other.area))
+            return false;
+        if (this.pricePeriod == null) {
+            if (other.pricePeriod != null)
+                return false;
+        }
+        else if (!this.pricePeriod.equals(other.pricePeriod))
+            return false;
+        if (this.editToken == null) {
+            if (other.editToken != null)
+                return false;
+        }
+        else if (!this.editToken.equals(other.editToken))
+            return false;
         return true;
     }
 
@@ -303,6 +378,9 @@ public class Ads implements Serializable {
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
         result = prime * result + ((this.createdIp == null) ? 0 : this.createdIp.hashCode());
+        result = prime * result + ((this.area == null) ? 0 : this.area.hashCode());
+        result = prime * result + ((this.pricePeriod == null) ? 0 : this.pricePeriod.hashCode());
+        result = prime * result + ((this.editToken == null) ? 0 : this.editToken.hashCode());
         return result;
     }
 
@@ -320,6 +398,9 @@ public class Ads implements Serializable {
         sb.append(", ").append(createdAt);
         sb.append(", ").append(updatedAt);
         sb.append(", ").append(createdIp);
+        sb.append(", ").append(area);
+        sb.append(", ").append(pricePeriod);
+        sb.append(", ").append(editToken);
 
         sb.append(")");
         return sb.toString();

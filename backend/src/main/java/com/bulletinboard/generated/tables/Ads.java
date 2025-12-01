@@ -17,13 +17,13 @@ import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function10;
+import org.jooq.Function13;
 import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row10;
+import org.jooq.Row13;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -106,6 +106,21 @@ public class Ads extends TableImpl<AdsRecord> {
      */
     public final TableField<AdsRecord, String> CREATED_IP = createField(DSL.name("created_ip"), SQLDataType.VARCHAR(45), this, "");
 
+    /**
+     * The column <code>public.ads.area</code>.
+     */
+    public final TableField<AdsRecord, String> AREA = createField(DSL.name("area"), SQLDataType.VARCHAR(50), this, "");
+
+    /**
+     * The column <code>public.ads.price_period</code>.
+     */
+    public final TableField<AdsRecord, String> PRICE_PERIOD = createField(DSL.name("price_period"), SQLDataType.VARCHAR(20), this, "");
+
+    /**
+     * The column <code>public.ads.edit_token</code>.
+     */
+    public final TableField<AdsRecord, String> EDIT_TOKEN = createField(DSL.name("edit_token"), SQLDataType.VARCHAR(64), this, "");
+
     private Ads(Name alias, Table<AdsRecord> aliased) {
         this(alias, aliased, null);
     }
@@ -146,7 +161,7 @@ public class Ads extends TableImpl<AdsRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.IDX_ADS_CATEGORY_ID, Indexes.IDX_ADS_CREATED_AT, Indexes.IDX_ADS_CREATED_IP, Indexes.IDX_ADS_IP_CREATED_AT, Indexes.IDX_ADS_STATUS, Indexes.IDX_ADS_USER_ID);
+        return Arrays.asList(Indexes.IDX_ADS_AREA, Indexes.IDX_ADS_CATEGORY_ID, Indexes.IDX_ADS_CREATED_AT, Indexes.IDX_ADS_CREATED_IP, Indexes.IDX_ADS_EDIT_TOKEN, Indexes.IDX_ADS_IP_CREATED_AT, Indexes.IDX_ADS_PRICE_PERIOD, Indexes.IDX_ADS_STATUS, Indexes.IDX_ADS_USER_ID);
     }
 
     @Override
@@ -157,6 +172,11 @@ public class Ads extends TableImpl<AdsRecord> {
     @Override
     public UniqueKey<AdsRecord> getPrimaryKey() {
         return Keys.ADS_PKEY;
+    }
+
+    @Override
+    public List<UniqueKey<AdsRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.ADS_EDIT_TOKEN_KEY);
     }
 
     @Override
@@ -227,18 +247,18 @@ public class Ads extends TableImpl<AdsRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row10 type methods
+    // Row13 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row10<Long, String, String, BigDecimal, Long, Long, String, LocalDateTime, LocalDateTime, String> fieldsRow() {
-        return (Row10) super.fieldsRow();
+    public Row13<Long, String, String, BigDecimal, Long, Long, String, LocalDateTime, LocalDateTime, String, String, String, String> fieldsRow() {
+        return (Row13) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function10<? super Long, ? super String, ? super String, ? super BigDecimal, ? super Long, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function13<? super Long, ? super String, ? super String, ? super BigDecimal, ? super Long, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? super String, ? super String, ? super String, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -246,7 +266,7 @@ public class Ads extends TableImpl<AdsRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function10<? super Long, ? super String, ? super String, ? super BigDecimal, ? super Long, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function13<? super Long, ? super String, ? super String, ? super BigDecimal, ? super Long, ? super Long, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super String, ? super String, ? super String, ? super String, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }
