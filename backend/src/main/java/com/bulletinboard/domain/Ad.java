@@ -14,6 +14,7 @@ public class Ad {
     private AdStatus status = AdStatus.ACTIVE;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String createdIp;
 
     public Ad() {
     }
@@ -97,5 +98,13 @@ public class Ad {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getCreatedIp() {
+        return createdIp;
+    }
+
+    public void setCreatedIp(String createdIp) {
+        this.createdIp = createdIp;
     }
 }

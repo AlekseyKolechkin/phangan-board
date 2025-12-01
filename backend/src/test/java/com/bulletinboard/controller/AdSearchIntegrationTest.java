@@ -42,6 +42,9 @@ class AdSearchIntegrationTest {
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
         registry.add("spring.flyway.enabled", () -> "true");
+        registry.add("antispam.rate-limit.max-ads-per-hour", () -> "1000");
+        registry.add("antispam.min-title-length", () -> "1");
+        registry.add("antispam.min-description-length", () -> "1");
     }
 
     @Autowired
