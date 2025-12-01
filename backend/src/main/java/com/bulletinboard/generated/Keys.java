@@ -29,6 +29,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<AdsRecord> ADS_EDIT_TOKEN_KEY = Internal.createUniqueKey(Ads.ADS, DSL.name("ads_edit_token_key"), new TableField[] { Ads.ADS.EDIT_TOKEN }, true);
     public static final UniqueKey<AdsRecord> ADS_PKEY = Internal.createUniqueKey(Ads.ADS, DSL.name("ads_pkey"), new TableField[] { Ads.ADS.ID }, true);
     public static final UniqueKey<CategoriesRecord> CATEGORIES_NAME_KEY = Internal.createUniqueKey(Categories.CATEGORIES, DSL.name("categories_name_key"), new TableField[] { Categories.CATEGORIES.NAME }, true);
     public static final UniqueKey<CategoriesRecord> CATEGORIES_PKEY = Internal.createUniqueKey(Categories.CATEGORIES, DSL.name("categories_pkey"), new TableField[] { Categories.CATEGORIES.ID }, true);

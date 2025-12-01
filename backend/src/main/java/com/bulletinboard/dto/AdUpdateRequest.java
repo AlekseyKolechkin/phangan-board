@@ -1,6 +1,8 @@
 package com.bulletinboard.dto;
 
 import com.bulletinboard.domain.AdStatus;
+import com.bulletinboard.domain.Area;
+import com.bulletinboard.domain.PricePeriod;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
@@ -20,6 +22,10 @@ public class AdUpdateRequest {
     private Long categoryId;
 
     private AdStatus status;
+
+    private Area area;
+
+    private PricePeriod pricePeriod;
 
     public AdUpdateRequest() {
     }
@@ -62,5 +68,21 @@ public class AdUpdateRequest {
 
     public void setStatus(AdStatus status) {
         this.status = status;
+    }
+
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
+    }
+
+    public PricePeriod getPricePeriod() {
+        return pricePeriod;
+    }
+
+    public void setPricePeriod(PricePeriod pricePeriod) {
+        this.pricePeriod = pricePeriod;
     }
 }

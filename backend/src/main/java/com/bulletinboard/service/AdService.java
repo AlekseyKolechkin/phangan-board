@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AdService {
@@ -113,9 +114,34 @@ public class AdService {
         ad.setUserId(request.getUserId());
         ad.setStatus(AdStatus.ACTIVE);
         ad.setCreatedIp(clientIp);
+        ad.setArea(request.getArea());
+        ad.setPricePeriod(request.getPricePeriod());
+        ad.setEditToken(generateEditToken());
 
         Ad saved = adRepository.save(ad);
-        return toAdResponse(saved);
+        return toAdResponseWithToken(saved);
+    }
+
+    private String generateEditToken() {
+        return UUID.randomUUID().toString().replace("-", "") + UUID.randomUUID().toString().replace("-", "").substring(0, 32);
+    }
+
+    public AdResponse getAdByEditToken(String editToken) {
+        Ad ad = adRepository.findByEditToken(editToken)
+                .orElseThrow(() -> new ResourceNotFoundException("Ad not found with token: " + editToken));
+        return toAdResponse(ad);
+    }
+
+    public AdResponse updateAdByEditToken(String editToken, AdUpdateRequest request) {
+        Ad ad = adRepository.findByEditToken(editToken)
+                .orElseThrow(() -> new ResourceNotFoundException("Ad not found with token: " + editToken));
+        return updateAdInternal(ad, request);
+    }
+
+    public void deleteAdByEditToken(String editToken) {
+        Ad ad = adRepository.findByEditToken(editToken)
+                .orElseThrow(() -> new ResourceNotFoundException("Ad not found with token: " + editToken));
+        adRepository.deleteById(ad.getId());
     }
 
     private void validateAntiSpam(AdCreateRequest request, String clientIp) {
@@ -140,7 +166,10 @@ public class AdService {
     public AdResponse updateAd(Long id, AdUpdateRequest request) {
         Ad ad = adRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Ad", id));
+        return updateAdInternal(ad, request);
+    }
 
+    private AdResponse updateAdInternal(Ad ad, AdUpdateRequest request) {
         if (request.getTitle() != null) {
             ad.setTitle(request.getTitle());
         }
@@ -158,6 +187,12 @@ public class AdService {
         }
         if (request.getStatus() != null) {
             ad.setStatus(request.getStatus());
+        }
+        if (request.getArea() != null) {
+            ad.setArea(request.getArea());
+        }
+        if (request.getPricePeriod() != null) {
+            ad.setPricePeriod(request.getPricePeriod());
         }
 
         Ad updated = adRepository.save(ad);
@@ -188,5 +223,24 @@ public class AdService {
         }
 
         return AdResponse.fromAd(ad, categoryName, userName);
+    }
+
+    private AdResponse toAdResponseWithToken(Ad ad) {
+        String categoryName = null;
+        String userName = null;
+
+        if (ad.getCategoryId() != null) {
+            categoryName = categoryRepository.findById(ad.getCategoryId())
+                    .map(Category::getName)
+                    .orElse(null);
+        }
+
+        if (ad.getUserId() != null) {
+            userName = userRepository.findById(ad.getUserId())
+                    .map(User::getName)
+                    .orElse(null);
+        }
+
+        return AdResponse.fromAdWithToken(ad, categoryName, userName);
     }
 }

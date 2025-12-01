@@ -1,6 +1,8 @@
 package com.bulletinboard.controller;
 
 import com.bulletinboard.domain.AdStatus;
+import com.bulletinboard.domain.Area;
+import com.bulletinboard.domain.PricePeriod;
 import com.bulletinboard.dto.AdCreateRequest;
 import com.bulletinboard.dto.AdResponse;
 import com.bulletinboard.dto.AdSearchRequest;
@@ -60,6 +62,8 @@ public class AdController {
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
             @RequestParam(required = false, name = "q") String search,
+            @RequestParam(required = false) Area area,
+            @RequestParam(required = false) PricePeriod pricePeriod,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size,
             @RequestParam(defaultValue = "createdAt") String sortBy,
@@ -72,6 +76,8 @@ public class AdController {
         request.setMinPrice(minPrice);
         request.setMaxPrice(maxPrice);
         request.setSearch(search);
+        request.setArea(area);
+        request.setPricePeriod(pricePeriod);
         request.setPage(page);
         request.setSize(size);
         request.setSortBy(sortBy);
@@ -112,6 +118,24 @@ public class AdController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAd(@PathVariable Long id) {
         adService.deleteAd(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/edit/{token}")
+    public ResponseEntity<AdResponse> getAdByEditToken(@PathVariable String token) {
+        return ResponseEntity.ok(adService.getAdByEditToken(token));
+    }
+
+    @PutMapping("/edit/{token}")
+    public ResponseEntity<AdResponse> updateAdByEditToken(
+            @PathVariable String token,
+            @Valid @RequestBody AdUpdateRequest request) {
+        return ResponseEntity.ok(adService.updateAdByEditToken(token, request));
+    }
+
+    @DeleteMapping("/edit/{token}")
+    public ResponseEntity<Void> deleteAdByEditToken(@PathVariable String token) {
+        adService.deleteAdByEditToken(token);
         return ResponseEntity.noContent().build();
     }
 }
