@@ -4,5 +4,6 @@ public enum AdStatus {
     ACTIVE,
     INACTIVE,
     SOLD,
-    DELETED
+    DELETED,
+    BLOCKED
 }

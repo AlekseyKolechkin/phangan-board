@@ -9,12 +9,15 @@ import com.bulletinboard.dto.AdResponse;
 import com.bulletinboard.dto.AdSearchRequest;
 import com.bulletinboard.dto.AdUpdateRequest;
 import com.bulletinboard.dto.PageResponse;
+import com.bulletinboard.exception.RateLimitExceededException;
 import com.bulletinboard.exception.ResourceNotFoundException;
 import com.bulletinboard.repository.AdRepository;
 import com.bulletinboard.repository.CategoryRepository;
 import com.bulletinboard.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -23,6 +26,15 @@ public class AdService {
     private final AdRepository adRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+
+    @Value("${antispam.rate-limit.max-ads-per-hour:5}")
+    private int maxAdsPerHour;
+
+    @Value("${antispam.min-title-length:5}")
+    private int minTitleLength;
+
+    @Value("${antispam.min-description-length:10}")
+    private int minDescriptionLength;
 
     public AdService(AdRepository adRepository, CategoryRepository categoryRepository, UserRepository userRepository) {
         this.adRepository = adRepository;
@@ -83,7 +95,9 @@ public class AdService {
         return toAdResponse(ad);
     }
 
-    public AdResponse createAd(AdCreateRequest request) {
+    public AdResponse createAd(AdCreateRequest request, String clientIp) {
+        validateAntiSpam(request, clientIp);
+        
         if (!categoryRepository.existsById(request.getCategoryId())) {
             throw new ResourceNotFoundException("Category", request.getCategoryId());
         }
@@ -98,9 +112,29 @@ public class AdService {
         ad.setCategoryId(request.getCategoryId());
         ad.setUserId(request.getUserId());
         ad.setStatus(AdStatus.ACTIVE);
+        ad.setCreatedIp(clientIp);
 
         Ad saved = adRepository.save(ad);
         return toAdResponse(saved);
+    }
+
+    private void validateAntiSpam(AdCreateRequest request, String clientIp) {
+        if (request.getTitle() != null && request.getTitle().length() < minTitleLength) {
+            throw new IllegalArgumentException("Title must be at least " + minTitleLength + " characters long");
+        }
+        
+        if (request.getDescription() != null && request.getDescription().length() < minDescriptionLength) {
+            throw new IllegalArgumentException("Description must be at least " + minDescriptionLength + " characters long");
+        }
+        
+        if (clientIp != null && !clientIp.isBlank()) {
+            LocalDateTime oneHourAgo = LocalDateTime.now().minusHours(1);
+            long adsFromIp = adRepository.countByIpSince(clientIp, oneHourAgo);
+            if (adsFromIp >= maxAdsPerHour) {
+                throw new RateLimitExceededException(
+                        "Rate limit exceeded. Maximum " + maxAdsPerHour + " ads per hour allowed from the same IP address.");
+            }
+        }
     }
 
     public AdResponse updateAd(Long id, AdUpdateRequest request) {

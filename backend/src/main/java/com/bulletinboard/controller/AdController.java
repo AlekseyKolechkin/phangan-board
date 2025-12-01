@@ -7,6 +7,7 @@ import com.bulletinboard.dto.AdSearchRequest;
 import com.bulletinboard.dto.AdUpdateRequest;
 import com.bulletinboard.dto.PageResponse;
 import com.bulletinboard.service.AdService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,9 +86,22 @@ public class AdController {
     }
 
     @PostMapping
-    public ResponseEntity<AdResponse> createAd(@Valid @RequestBody AdCreateRequest request) {
-        AdResponse created = adService.createAd(request);
+    public ResponseEntity<AdResponse> createAd(@Valid @RequestBody AdCreateRequest request, HttpServletRequest httpRequest) {
+        String clientIp = getClientIp(httpRequest);
+        AdResponse created = adService.createAd(request, clientIp);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
+    private String getClientIp(HttpServletRequest request) {
+        String xForwardedFor = request.getHeader("X-Forwarded-For");
+        if (xForwardedFor != null && !xForwardedFor.isBlank()) {
+            return xForwardedFor.split(",")[0].trim();
+        }
+        String xRealIp = request.getHeader("X-Real-IP");
+        if (xRealIp != null && !xRealIp.isBlank()) {
+            return xRealIp;
+        }
+        return request.getRemoteAddr();
     }
 
     @PutMapping("/{id}")

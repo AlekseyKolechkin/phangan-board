@@ -38,6 +38,7 @@ public class AdRepository {
                     .set(ADS.STATUS, ad.getStatus().name())
                     .set(ADS.CREATED_AT, now)
                     .set(ADS.UPDATED_AT, now)
+                    .set(ADS.CREATED_IP, ad.getCreatedIp())
                     .returning()
                     .fetchOne();
             return mapToAd(record);
@@ -118,6 +119,14 @@ public class AdRepository {
         dsl.deleteFrom(ADS)
                 .where(ADS.ID.eq(id))
                 .execute();
+    }
+
+    public long countByIpSince(String ip, LocalDateTime since) {
+        return dsl.selectCount()
+                .from(ADS)
+                .where(ADS.CREATED_IP.eq(ip))
+                .and(ADS.CREATED_AT.ge(since))
+                .fetchOne(0, Long.class);
     }
 
     public List<Ad> searchAds(AdSearchRequest request) {
@@ -202,6 +211,7 @@ public class AdRepository {
         ad.setStatus(AdStatus.valueOf(record.getStatus()));
         ad.setCreatedAt(record.getCreatedAt());
         ad.setUpdatedAt(record.getUpdatedAt());
+        ad.setCreatedIp(record.getCreatedIp());
         return ad;
     }
 }
