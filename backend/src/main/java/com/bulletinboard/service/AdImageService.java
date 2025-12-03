@@ -73,6 +73,33 @@ public class AdImageService {
         }
     }
 
+    public void deleteImage(Long adId, Long imageId, String editToken) {
+        Ad ad = adRepository.findById(adId)
+                .orElseThrow(() -> new ResourceNotFoundException("Ad", adId));
+
+        if (!ad.getEditToken().equals(editToken)) {
+            throw new RuntimeException("Invalid edit token");
+        }
+
+        AdImage image = adImageRepository.findById(imageId)
+                .orElseThrow(() -> new ResourceNotFoundException("Image", imageId));
+
+        if (!image.getAdId().equals(adId)) {
+            throw new RuntimeException("Image does not belong to this ad");
+        }
+
+        // Delete file from disk
+        try {
+            Path filePath = Paths.get(uploadDir).resolve(image.getUrl().replace("/uploads/", ""));
+            Files.deleteIfExists(filePath);
+        } catch (IOException e) {
+            // Log but don't fail - file might already be deleted
+        }
+
+        // Delete from database
+        adImageRepository.deleteById(imageId);
+    }
+
     private String getExtension(String filename) {
         if (filename == null) return "";
         int dot = filename.lastIndexOf('.');

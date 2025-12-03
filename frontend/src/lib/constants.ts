@@ -1,4 +1,4 @@
-import { Area, PricePeriod } from '@/types/api';
+import { Area, PricePeriod, AdStatus } from '@/types/api';
 
 export interface SelectOption<T extends string> {
   value: T;
@@ -24,5 +24,12 @@ export const PRICE_PERIODS: SelectOption<PricePeriod>[] = [
   { value: 'WEEK', label: 'Per Week' },
   { value: 'MONTH', label: 'Per Month' },
   { value: 'SALE', label: 'For Sale' },
+];
+
+// Statuses that users can change to (excludes DELETED and BLOCKED)
+export const USER_EDITABLE_STATUSES: SelectOption<AdStatus>[] = [
+  { value: 'ACTIVE', label: 'Active' },
+  { value: 'INACTIVE', label: 'Inactive' },
+  { value: 'SOLD', label: 'Sold' },
 ];
 

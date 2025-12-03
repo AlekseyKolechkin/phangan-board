@@ -126,3 +126,29 @@ export async function uploadAdImages(
     throw new ApiError(response.status, response.statusText, errorMessage);
   }
 }
+
+export async function deleteAdImage(
+  adId: number,
+  imageId: number,
+  editToken: string
+): Promise<void> {
+  const response = await fetch(`${API_URL}/ads/${adId}/images/${imageId}`, {
+    method: 'DELETE',
+    headers: {
+      'X-Edit-Token': editToken,
+    },
+  });
+
+  if (!response.ok) {
+    let errorMessage = `${response.status} ${response.statusText}`;
+    try {
+      const errorData = await response.json();
+      if (errorData.message) {
+        errorMessage = errorData.message;
+      }
+    } catch {
+      // ignore JSON parse errors
+    }
+    throw new ApiError(response.status, response.statusText, errorMessage);
+  }
+}

@@ -101,6 +101,15 @@ public class AdController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responses);
     }
 
+    @DeleteMapping("/{adId}/images/{imageId}")
+    public ResponseEntity<Void> deleteImage(
+            @PathVariable long adId,
+            @PathVariable long imageId,
+            @RequestHeader("X-Edit-Token") String editToken
+    ) {
+        adImageService.deleteImage(adId, imageId, editToken);
+        return ResponseEntity.noContent().build();
+    }
 
     @PostMapping
     public ResponseEntity<AdResponse> createAd(@Valid @RequestBody AdCreateRequest request, HttpServletRequest httpRequest) {

@@ -87,4 +87,5 @@ export interface AdUpdateRequest {
   categoryId?: number;
   area?: Area;
   pricePeriod?: PricePeriod;
+  status?: AdStatus;
 }

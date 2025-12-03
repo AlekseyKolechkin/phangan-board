@@ -19,8 +19,7 @@ export function HomePage() {
     page: 0,
     size: 12,
     sortBy: 'createdAt',
-    sortDirection: 'desc',
-    status: 'ACTIVE',
+    sortDirection: 'desc'
   });
   
   const [searchQuery, setSearchQuery] = useState('');
