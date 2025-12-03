@@ -1,0 +1,123 @@
+{
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "save": "Enregistrer",
+    "saving": "Enregistrement...",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "create": "Créer",
+    "search": "Rechercher",
+    "apply": "Appliquer",
+    "reset": "Réinitialiser",
+    "close": "Fermer",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "yes": "Oui",
+    "no": "Non",
+    "confirm": "Confirmer",
+    "currency": "฿"
+  },
+  "header": {
+    "title": "Tableau d'affichage",
+    "createAd": "Créer une annonce"
+  },
+  "search": {
+    "placeholder": "Rechercher des annonces...",
+    "button": "Trouver",
+    "noResults": "Aucune annonce trouvée",
+    "tryDifferent": "Essayez de modifier vos paramètres de recherche"
+  },
+  "filters": {
+    "title": "Filtres",
+    "category": "Catégorie",
+    "allCategories": "Toutes les catégories",
+    "priceFrom": "Prix à partir de",
+    "priceTo": "Prix jusqu'à",
+    "sorting": "Tri",
+    "newestFirst": "Plus récentes d'abord",
+    "oldestFirst": "Plus anciennes d'abord",
+    "cheapestFirst": "Moins chères d'abord",
+    "expensiveFirst": "Plus chères d'abord",
+    "titleAZ": "Titre (A-Z)",
+    "titleZA": "Titre (Z-A)"
+  },
+  "ads": {
+    "found": "Annonces trouvées",
+    "notFound": "Aucune annonce trouvée",
+    "tryDifferentSearch": "Essayez de modifier vos paramètres de recherche",
+    "loadError": "Échec du chargement de l'annonce",
+    "status": {
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive",
+      "SOLD": "Vendue",
+      "DELETED": "Supprimée"
+    },
+    "postedBy": "Publié par",
+    "ago": "il y a",
+    "price": "Prix",
+    "description": "Description",
+    "contact": "Contact",
+    "phone": "Téléphone",
+    "email": "E-mail"
+  },
+  "pagination": {
+    "page": "Page",
+    "of": "sur",
+    "first": "Première",
+    "last": "Dernière"
+  },
+  "adForm": {
+    "createTitle": "Créer une nouvelle annonce",
+    "editTitle": "Modifier l'annonce",
+    "title": "Titre",
+    "titlePlaceholder": "Entrez le titre de l'annonce",
+    "description": "Description",
+    "descriptionPlaceholder": "Entrez la description de l'annonce",
+    "price": "Prix",
+    "pricePlaceholder": "Entrez le prix",
+    "category": "Catégorie",
+    "selectCategory": "Sélectionner une catégorie",
+    "status": "Statut",
+    "submit": "Soumettre",
+    "creating": "Création...",
+    "updating": "Mise à jour...",
+    "success": "Annonce enregistrée avec succès",
+    "saveError": "Échec de l'enregistrement de l'annonce"
+  },
+  "adDetail": {
+    "backToList": "Retour à la liste",
+    "editAd": "Modifier",
+    "deleteAd": "Supprimer",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette annonce?",
+    "deleted": "Annonce supprimée avec succès",
+    "notFound": "Annonce non trouvée",
+    "category": "Catégorie",
+    "seller": "Vendeur",
+    "posted": "Publié",
+    "contact": "Contacter le vendeur"
+  },
+  "language": {
+    "select": "Langue",
+    "en": "English",
+    "de": "Deutsch",
+    "ru": "Русский",
+    "fr": "Français",
+    "th": "ไทย"
+  },
+  "time": {
+    "justNow": "à l'instant",
+    "minutesAgo": "il y a {{count}} minute",
+    "minutesAgo_plural": "il y a {{count}} minutes",
+    "hoursAgo": "il y a {{count}} heure",
+    "hoursAgo_plural": "il y a {{count}} heures",
+    "daysAgo": "il y a {{count}} jour",
+    "daysAgo_plural": "il y a {{count}} jours",
+    "weeksAgo": "il y a {{count}} semaine",
+    "weeksAgo_plural": "il y a {{count}} semaines",
+    "monthsAgo": "il y a {{count}} mois",
+    "monthsAgo_plural": "il y a {{count}} mois"
+  }
+}

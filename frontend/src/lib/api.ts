@@ -5,7 +5,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
 export class ApiError extends Error {
   status: number;
   statusText: string;
-  
+
   constructor(status: number, statusText: string, message?: string) {
     super(message || `API Error: ${status} ${statusText}`);
     this.status = status;

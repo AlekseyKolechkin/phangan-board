@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, X } from 'lucide-react';
@@ -7,10 +8,10 @@ interface SearchBarProps {
   value: string;
   onChange: (value: string) => void;
   onSearch: () => void;
-  placeholder?: string;
 }
 
-export function SearchBar({ value, onChange, onSearch, placeholder = 'Поиск объявлений...' }: SearchBarProps) {
+export function SearchBar({ value, onChange, onSearch }: SearchBarProps) {
+  const { t } = useTranslation();
   const [inputValue, setInputValue] = useState(value);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -33,7 +34,7 @@ export function SearchBar({ value, onChange, onSearch, placeholder = 'Поиск
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          placeholder={placeholder}
+          placeholder={t('search.placeholder')}
           className="pl-10 pr-10"
         />
         {inputValue && (
@@ -47,7 +48,7 @@ export function SearchBar({ value, onChange, onSearch, placeholder = 'Поиск
         )}
       </div>
       <Button type="submit">
-        Найти
+        {t('search.button')}
       </Button>
     </form>
   );

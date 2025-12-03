@@ -1,0 +1,123 @@
+{
+  "common": {
+    "loading": "Laden...",
+    "error": "Ein Fehler ist aufgetreten",
+    "save": "Speichern",
+    "saving": "Speichern...",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "create": "Erstellen",
+    "search": "Suchen",
+    "apply": "Anwenden",
+    "reset": "Zurücksetzen",
+    "close": "Schließen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Vorherige",
+    "yes": "Ja",
+    "no": "Nein",
+    "confirm": "Bestätigen",
+    "currency": "฿"
+  },
+  "header": {
+    "title": "Schwarzes Brett",
+    "createAd": "Anzeige erstellen"
+  },
+  "search": {
+    "placeholder": "Anzeigen suchen...",
+    "button": "Finden",
+    "noResults": "Keine Anzeigen gefunden",
+    "tryDifferent": "Versuchen Sie, Ihre Suchparameter zu ändern"
+  },
+  "filters": {
+    "title": "Filter",
+    "category": "Kategorie",
+    "allCategories": "Alle Kategorien",
+    "priceFrom": "Preis von",
+    "priceTo": "Preis bis",
+    "sorting": "Sortierung",
+    "newestFirst": "Neueste zuerst",
+    "oldestFirst": "Älteste zuerst",
+    "cheapestFirst": "Günstigste zuerst",
+    "expensiveFirst": "Teuerste zuerst",
+    "titleAZ": "Titel (A-Z)",
+    "titleZA": "Titel (Z-A)"
+  },
+  "ads": {
+    "found": "Anzeigen gefunden",
+    "notFound": "Keine Anzeigen gefunden",
+    "tryDifferentSearch": "Versuchen Sie, Ihre Suchparameter zu ändern",
+    "loadError": "Anzeige konnte nicht geladen werden",
+    "status": {
+      "ACTIVE": "Aktiv",
+      "INACTIVE": "Inaktiv",
+      "SOLD": "Verkauft",
+      "DELETED": "Gelöscht"
+    },
+    "postedBy": "Veröffentlicht von",
+    "ago": "vor",
+    "price": "Preis",
+    "description": "Beschreibung",
+    "contact": "Kontakt",
+    "phone": "Telefon",
+    "email": "E-Mail"
+  },
+  "pagination": {
+    "page": "Seite",
+    "of": "von",
+    "first": "Erste",
+    "last": "Letzte"
+  },
+  "adForm": {
+    "createTitle": "Neue Anzeige erstellen",
+    "editTitle": "Anzeige bearbeiten",
+    "title": "Titel",
+    "titlePlaceholder": "Anzeigentitel eingeben",
+    "description": "Beschreibung",
+    "descriptionPlaceholder": "Anzeigenbeschreibung eingeben",
+    "price": "Preis",
+    "pricePlaceholder": "Preis eingeben",
+    "category": "Kategorie",
+    "selectCategory": "Kategorie auswählen",
+    "status": "Status",
+    "submit": "Absenden",
+    "creating": "Erstellen...",
+    "updating": "Aktualisieren...",
+    "success": "Anzeige erfolgreich gespeichert",
+    "saveError": "Anzeige konnte nicht gespeichert werden"
+  },
+  "adDetail": {
+    "backToList": "Zurück zur Liste",
+    "editAd": "Bearbeiten",
+    "deleteAd": "Löschen",
+    "confirmDelete": "Sind Sie sicher, dass Sie diese Anzeige löschen möchten?",
+    "deleted": "Anzeige erfolgreich gelöscht",
+    "notFound": "Anzeige nicht gefunden",
+    "category": "Kategorie",
+    "seller": "Verkäufer",
+    "posted": "Veröffentlicht",
+    "contact": "Verkäufer kontaktieren"
+  },
+  "language": {
+    "select": "Sprache",
+    "en": "English",
+    "de": "Deutsch",
+    "ru": "Русский",
+    "fr": "Français",
+    "th": "ไทย"
+  },
+  "time": {
+    "justNow": "gerade eben",
+    "minutesAgo": "vor {{count}} Minute",
+    "minutesAgo_plural": "vor {{count}} Minuten",
+    "hoursAgo": "vor {{count}} Stunde",
+    "hoursAgo_plural": "vor {{count}} Stunden",
+    "daysAgo": "vor {{count}} Tag",
+    "daysAgo_plural": "vor {{count}} Tagen",
+    "weeksAgo": "vor {{count}} Woche",
+    "weeksAgo_plural": "vor {{count}} Wochen",
+    "monthsAgo": "vor {{count}} Monat",
+    "monthsAgo_plural": "vor {{count}} Monaten"
+  }
+}

@@ -1,18 +1,30 @@
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Ad } from '@/types/api';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { formatDistanceToNow } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { formatDistanceToNow, Locale } from 'date-fns';
+import { enUS, de, ru, fr, th } from 'date-fns/locale';
 
 interface AdCardProps {
   ad: Ad;
+  onClick?: (ad: Ad) => void;
 }
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
 const FILES_URL = API_URL.replace('/api', '');
 
 export function AdCard({ ad }: AdCardProps) {
+const localeMap: Record<string, Locale> = {
+  en: enUS,
+  de: de,
+  ru: ru,
+  fr: fr,
+  th: th,
+};
+
+export function AdCard({ ad, onClick }: AdCardProps) {
+  const { t, i18n } = useTranslation();
   const statusColors: Record<string, string> = {
     ACTIVE: 'bg-green-100 text-green-800',
     INACTIVE: 'bg-gray-100 text-gray-800',
@@ -22,23 +34,24 @@ export function AdCard({ ad }: AdCardProps) {
 
 
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('ru-RU', {
+    const localeCode = i18n.language === 'th' ? 'th-TH' : i18n.language === 'de' ? 'de-DE' : i18n.language === 'fr' ? 'fr-FR' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
+    return new Intl.NumberFormat(localeCode, {
       style: 'currency',
       currency: 'THB',
       minimumFractionDigits: 0,
     }).format(price);
   };
 
+  const currentLocale = localeMap[i18n.language] || enUS;
   const timeAgo = formatDistanceToNow(new Date(ad.createdAt), {
     addSuffix: true,
-    locale: ru,
+    locale: currentLocale,
   });
-
-  const mainImage = ad.images?.[0];
 
   return (
     <Link to={`/ad/${ad.id}`} className="block">
-      <Card className="h-full flex flex-col hover:shadow-lg transition-shadow cursor-pointer">
+      <Card className="h-full flex flex-col hover:shadow-lg transition-shadow cursor-pointer"
+            onClick={() => onClick?.(ad)}>
         {mainImage && (
           <img
             src={`${FILES_URL}${mainImage.url}`}
@@ -50,7 +63,7 @@ export function AdCard({ ad }: AdCardProps) {
           <div className="flex justify-between items-start gap-2">
             <CardTitle className="text-lg line-clamp-2">{ad.title}</CardTitle>
             <Badge className={statusColors[ad.status] || 'bg-gray-100'}>
-              {ad.status}
+              {t(`ads.status.${ad.status}`)}
             </Badge>
           </div>
         </CardHeader>
