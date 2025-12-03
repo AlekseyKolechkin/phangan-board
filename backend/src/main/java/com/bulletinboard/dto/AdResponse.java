@@ -7,6 +7,7 @@ import com.bulletinboard.domain.PricePeriod;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class AdResponse {
 
@@ -24,6 +25,7 @@ public class AdResponse {
     private Area area;
     private PricePeriod pricePeriod;
     private String editToken;
+    private List<AdImageResponse> images;
 
     public AdResponse() {
     }
@@ -167,5 +169,13 @@ public class AdResponse {
 
     public void setEditToken(String editToken) {
         this.editToken = editToken;
+    }
+
+    public List<AdImageResponse> getImages() {
+        return images;
+    }
+
+    public void setImages(List<AdImageResponse> images) {
+        this.images = images;
     }
 }

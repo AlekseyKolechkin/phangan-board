@@ -15,6 +15,13 @@ export type Area =
 
 export type PricePeriod = 'DAY' | 'WEEK' | 'MONTH' | 'SALE';
 
+
+export interface AdImage {
+  id: number;
+  url: string;
+  position: number;
+}
+
 export interface Ad {
   id: number;
   title: string;
@@ -30,7 +37,9 @@ export interface Ad {
   editToken?: string;
   createdAt: string;
   updatedAt: string;
+  images?: AdImage[];
 }
+
 
 export interface Category {
   id: number;

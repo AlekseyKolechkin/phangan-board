@@ -3,17 +3,15 @@ package com.bulletinboard.controller;
 import com.bulletinboard.domain.AdStatus;
 import com.bulletinboard.domain.Area;
 import com.bulletinboard.domain.PricePeriod;
-import com.bulletinboard.dto.AdCreateRequest;
-import com.bulletinboard.dto.AdResponse;
-import com.bulletinboard.dto.AdSearchRequest;
-import com.bulletinboard.dto.AdUpdateRequest;
-import com.bulletinboard.dto.PageResponse;
+import com.bulletinboard.dto.*;
+import com.bulletinboard.service.AdImageService;
 import com.bulletinboard.service.AdService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,9 +21,11 @@ import java.util.List;
 public class AdController {
 
     private final AdService adService;
+    private final AdImageService adImageService;
 
-    public AdController(AdService adService) {
+    public AdController(AdService adService, AdImageService adImageService) {
         this.adService = adService;
+        this.adImageService = adImageService;
     }
 
     @GetMapping
@@ -90,6 +90,17 @@ public class AdController {
     public ResponseEntity<AdResponse> getAdById(@PathVariable Long id) {
         return ResponseEntity.ok(adService.getAdById(id));
     }
+
+    @PostMapping("/{id}/images")
+    public ResponseEntity<List<AdImageResponse>> uploadImages(
+            @PathVariable long id,
+            @RequestPart("files") List<MultipartFile> files,
+            @RequestHeader("X-Edit-Token") String editToken
+    ) {
+        List<AdImageResponse> responses = adImageService.uploadImages(id, files, editToken);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responses);
+    }
+
 
     @PostMapping
     public ResponseEntity<AdResponse> createAd(@Valid @RequestBody AdCreateRequest request, HttpServletRequest httpRequest) {

@@ -2,31 +2,11 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Ad, AdUpdateRequest, Area, PricePeriod, Category } from '@/types/api';
 import { getAdByToken, updateAdByToken, deleteAdByToken, getCategories, ApiError } from '@/lib/api';
+import { AREAS, PRICE_PERIODS } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
-const AREAS: { value: Area; label: string }[] = [
-  { value: 'THONG_SALA', label: 'Thong Sala' },
-  { value: 'SRITHANU', label: 'Srithanu' },
-  { value: 'HAAD_RIN', label: 'Haad Rin' },
-  { value: 'BAAN_TAI', label: 'Baan Tai' },
-  { value: 'BAAN_KAI', label: 'Baan Kai' },
-  { value: 'CHALOKLUM', label: 'Chaloklum' },
-  { value: 'MAE_HAAD', label: 'Mae Haad' },
-  { value: 'SALAD', label: 'Salad' },
-  { value: 'HIN_KONG', label: 'Hin Kong' },
-  { value: 'WOK_TUM', label: 'Wok Tum' },
-  { value: 'OTHER', label: 'Other' },
-];
-
-const PRICE_PERIODS: { value: PricePeriod; label: string }[] = [
-  { value: 'DAY', label: 'Per Day' },
-  { value: 'WEEK', label: 'Per Week' },
-  { value: 'MONTH', label: 'Per Month' },
-  { value: 'SALE', label: 'For Sale' },
-];
 
 interface FormErrors {
   title?: string;

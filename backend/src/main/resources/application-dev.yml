@@ -11,3 +11,7 @@ logging:
   level:
     com.bulletinboard: DEBUG
     org.springframework.web: DEBUG
+
+
+app:
+  upload-dir: /Users/akolechkin/uploads

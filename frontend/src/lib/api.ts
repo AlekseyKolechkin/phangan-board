@@ -94,3 +94,35 @@ export async function deleteAdByToken(token: string): Promise<void> {
     method: 'DELETE',
   });
 }
+
+export async function uploadAdImages(
+  adId: number,
+  editToken: string,
+  files: File[]
+): Promise<void> {
+  if (files.length === 0) return;
+
+  const formData = new FormData();
+  files.forEach((file) => formData.append('files', file));
+
+  const response = await fetch(`${API_URL}/ads/${adId}/images`, {
+    method: 'POST',
+    headers: {
+      'X-Edit-Token': editToken,
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    let errorMessage = `${response.status} ${response.statusText}`;
+    try {
+      const errorData = await response.json();
+      if (errorData.message) {
+        errorMessage = errorData.message;
+      }
+    } catch {
+      // ignore JSON parse errors
+    }
+    throw new ApiError(response.status, response.statusText, errorMessage);
+  }
+}

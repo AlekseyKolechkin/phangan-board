@@ -1,33 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Ad, AdCreateRequest, Area, PricePeriod, Category } from '@/types/api';
-import { createAd, getCategories, ApiError } from '@/lib/api';
+import { createAd, getCategories, uploadAdImages, ApiError } from '@/lib/api';
+import { AREAS, PRICE_PERIODS } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-const AREAS: { value: Area; label: string }[] = [
-  { value: 'THONG_SALA', label: 'Thong Sala' },
-  { value: 'SRITHANU', label: 'Srithanu' },
-  { value: 'HAAD_RIN', label: 'Haad Rin' },
-  { value: 'BAAN_TAI', label: 'Baan Tai' },
-  { value: 'BAAN_KAI', label: 'Baan Kai' },
-  { value: 'CHALOKLUM', label: 'Chaloklum' },
-  { value: 'MAE_HAAD', label: 'Mae Haad' },
-  { value: 'SALAD', label: 'Salad' },
-  { value: 'HIN_KONG', label: 'Hin Kong' },
-  { value: 'WOK_TUM', label: 'Wok Tum' },
-  { value: 'OTHER', label: 'Other' },
-];
-
-const PRICE_PERIODS: { value: PricePeriod; label: string }[] = [
-  { value: 'DAY', label: 'Per Day' },
-  { value: 'WEEK', label: 'Per Week' },
-  { value: 'MONTH', label: 'Per Month' },
-  { value: 'SALE', label: 'For Sale' },
-];
-
+// Form validation error types
 interface FormErrors {
   title?: string;
   description?: string;
@@ -35,20 +16,23 @@ interface FormErrors {
   categoryId?: string;
 }
 
+// Initial form state
+const INITIAL_FORM_DATA: AdCreateRequest = {
+  title: '',
+  description: '',
+  price: 0,
+  categoryId: 0,
+  userId: 1,
+};
+
 export function PostAdPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [createdAd, setCreatedAd] = useState<Ad | null>(null);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
-
-  const [formData, setFormData] = useState<AdCreateRequest>({
-    title: '',
-    description: '',
-    price: 0,
-    categoryId: 0,
-    userId: 1,
-  });
+  const [images, setImages] = useState<File[]>([]);
+  const [formData, setFormData] = useState<AdCreateRequest>(INITIAL_FORM_DATA);
 
   useEffect(() => {
     getCategories()
@@ -85,16 +69,19 @@ export function PostAdPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
+
+    if (!validateForm()) return;
 
     setLoading(true);
     setError(null);
 
     try {
       const ad = await createAd(formData);
+
+      if (images.length > 0 && ad.editToken) {
+        await uploadAdImages(ad.id, ad.editToken, images);
+      }
+
       setCreatedAd(ad);
     } catch (err) {
       if (err instanceof ApiError) {
@@ -107,9 +94,17 @@ export function PostAdPage() {
     }
   };
 
+  const updateFormField = <K extends keyof AdCreateRequest>(
+    field: K,
+    value: AdCreateRequest[K]
+  ) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  // ----------- SUCCESS VIEW -----------
   if (createdAd) {
     const editUrl = `${window.location.origin}/edit/${createdAd.editToken}`;
-    
+
     return (
       <main className="max-w-2xl mx-auto py-6 px-4">
         <Card>
@@ -120,50 +115,23 @@ export function PostAdPage() {
             <div>
               <h3 className="font-semibold text-lg">{createdAd.title}</h3>
               <p className="text-gray-600 mt-2">{createdAd.description}</p>
-              <p className="text-xl font-bold mt-2">
-                {createdAd.price.toLocaleString()} THB
-                {createdAd.pricePeriod && ` / ${createdAd.pricePeriod.toLowerCase()}`}
-              </p>
             </div>
-            
+
             <div className="bg-yellow-50 border border-yellow-200 p-4 rounded">
               <p className="font-semibold text-yellow-800 mb-2">
                 Save this link to edit your ad later:
               </p>
               <div className="flex items-center gap-2">
-                <Input 
-                  value={editUrl} 
-                  readOnly 
-                  className="flex-grow font-mono text-sm"
-                />
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => navigator.clipboard.writeText(editUrl)}
-                >
+                <Input value={editUrl} readOnly className="flex-grow font-mono text-sm" />
+                <Button variant="outline" onClick={() => navigator.clipboard.writeText(editUrl)}>
                   Copy
                 </Button>
               </div>
             </div>
-            
+
             <div className="flex gap-4">
-              <Link to="/">
-                <Button variant="outline">Back to Home</Button>
-              </Link>
-              <Link to="/post">
-                <Button onClick={() => {
-                  setCreatedAd(null);
-                  setFormData({
-                    title: '',
-                    description: '',
-                    price: 0,
-                    categoryId: 0,
-                    userId: 1,
-                  });
-                }}>
-                  Post Another Ad
-                </Button>
-              </Link>
+              <Link to="/"><Button variant="outline">Back</Button></Link>
+              <Link to="/post"><Button>Post Another</Button></Link>
             </div>
           </CardContent>
         </Card>
@@ -171,6 +139,7 @@ export function PostAdPage() {
     );
   }
 
+  // ----------- FORM VIEW -----------
   return (
     <main className="max-w-2xl mx-auto py-6 px-4">
       <div className="mb-6">
@@ -178,130 +147,131 @@ export function PostAdPage() {
           &larr; Back to listings
         </Link>
       </div>
-      
+
       <Card>
-        <CardHeader>
-          <CardTitle>Post a New Ad</CardTitle>
-        </CardHeader>
+        <CardHeader><CardTitle>Post a New Ad</CardTitle></CardHeader>
         <CardContent>
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
-              {error}
-            </div>
-          )}
-          
-          <form onSubmit={handleSubmit} className="space-y-4">
+          {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">{error}</div>}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+
+            {/* Title */}
             <div>
               <label className="block text-sm font-medium mb-1">Title *</label>
               <Input
                 value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                placeholder="Enter ad title"
+                onChange={(e) => updateFormField('title', e.target.value)}
                 className={formErrors.title ? 'border-red-500' : ''}
+                placeholder="Enter title"
               />
-              {formErrors.title && (
-                <p className="text-red-500 text-sm mt-1">{formErrors.title}</p>
-              )}
+              {formErrors.title && <p className="text-red-500 text-sm">{formErrors.title}</p>}
             </div>
-            
+
+            {/* Description */}
             <div>
               <label className="block text-sm font-medium mb-1">Description *</label>
               <textarea
                 value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                placeholder="Describe your item or service"
+                onChange={(e) => updateFormField('description', e.target.value)}
+                className={`w-full px-3 py-2 border rounded-md ${formErrors.description ? 'border-red-500' : ''}`}
                 rows={4}
-                className={`w-full px-3 py-2 border rounded-md ${formErrors.description ? 'border-red-500' : 'border-gray-300'}`}
               />
-              {formErrors.description && (
-                <p className="text-red-500 text-sm mt-1">{formErrors.description}</p>
+              {formErrors.description && <p className="text-red-500 text-sm">{formErrors.description}</p>}
+            </div>
+
+            {/* Images Upload */}
+            <div>
+              <label className="block text-sm font-medium mb-1">Images</label>
+              <Input
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={(e) => setImages(Array.from(e.target.files || []))}
+              />
+              {images.length > 0 && (
+                <p className="text-gray-600 text-sm mt-1">
+                  Selected: {images.length} file(s)
+                </p>
               )}
             </div>
-            
+
+            {/* Price + Period */}
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Price (THB)</label>
                 <Input
                   type="number"
                   value={formData.price || ''}
-                  onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
-                  placeholder="0"
+                  onChange={(e) => updateFormField('price', Number(e.target.value))}
                   min="0"
-                  className={formErrors.price ? 'border-red-500' : ''}
                 />
-                {formErrors.price && (
-                  <p className="text-red-500 text-sm mt-1">{formErrors.price}</p>
-                )}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium mb-1">Price Period</label>
                 <Select
                   value={formData.pricePeriod || ''}
-                  onValueChange={(value) => setFormData({ ...formData, pricePeriod: value as PricePeriod })}
+                  onValueChange={(v) => updateFormField('pricePeriod', v as PricePeriod)}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select period" />
+                    <SelectValue placeholder="Select" />
                   </SelectTrigger>
                   <SelectContent>
-                    {PRICE_PERIODS.map((period) => (
-                      <SelectItem key={period.value} value={period.value}>
-                        {period.label}
+                    {PRICE_PERIODS.map((pp) => (
+                      <SelectItem key={pp.value} value={pp.value}>
+                        {pp.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
             </div>
-            
+
+            {/* Category + Area */}
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Category *</label>
                 <Select
-                  value={formData.categoryId ? String(formData.categoryId) : ''}
-                  onValueChange={(value) => setFormData({ ...formData, categoryId: Number(value) })}
+                  value={String(formData.categoryId || '')}
+                  onValueChange={(v) => updateFormField('categoryId', Number(v))}
                 >
-                  <SelectTrigger className={formErrors.categoryId ? 'border-red-500' : ''}>
-                    <SelectValue placeholder="Select category" />
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select" />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category.id} value={String(category.id)}>
-                        {category.name}
+                    {categories.map((c) => (
+                      <SelectItem key={c.id} value={String(c.id)}>
+                        {c.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
-                {formErrors.categoryId && (
-                  <p className="text-red-500 text-sm mt-1">{formErrors.categoryId}</p>
-                )}
+                {formErrors.categoryId && <p className="text-red-500 text-sm">{formErrors.categoryId}</p>}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium mb-1">Area</label>
                 <Select
                   value={formData.area || ''}
-                  onValueChange={(value) => setFormData({ ...formData, area: value as Area })}
+                  onValueChange={(v) => updateFormField('area', v as Area)}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select area" />
+                    <SelectValue placeholder="Select" />
                   </SelectTrigger>
                   <SelectContent>
-                    {AREAS.map((area) => (
-                      <SelectItem key={area.value} value={area.value}>
-                        {area.label}
+                    {AREAS.map((a) => (
+                      <SelectItem key={a.value} value={a.value}>
+                        {a.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
             </div>
-            
-            <div className="pt-4">
-              <Button type="submit" disabled={loading} className="w-full">
-                {loading ? 'Creating...' : 'Post Ad'}
-              </Button>
-            </div>
+
+            <Button type="submit" disabled={loading} className="w-full">
+              {loading ? "Creating..." : "Post Ad"}
+            </Button>
           </form>
         </CardContent>
       </Card>

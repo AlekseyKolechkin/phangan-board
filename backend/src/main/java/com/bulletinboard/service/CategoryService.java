@@ -20,6 +20,7 @@ public class CategoryService {
     }
 
     public List<CategoryResponse> getAllCategories() {
+
         return categoryRepository.findAll().stream()
                 .map(CategoryResponse::fromCategory)
                 .toList();

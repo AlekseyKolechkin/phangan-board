@@ -36,7 +36,6 @@ public class AdRepository {
                     .set(ADS.DESCRIPTION, ad.getDescription())
                     .set(ADS.PRICE, ad.getPrice())
                     .set(ADS.CATEGORY_ID, ad.getCategoryId())
-                    .set(ADS.USER_ID, ad.getUserId())
                     .set(ADS.STATUS, ad.getStatus().name())
                     .set(ADS.CREATED_AT, now)
                     .set(ADS.UPDATED_AT, now)
@@ -52,7 +51,6 @@ public class AdRepository {
                     .set(ADS.DESCRIPTION, ad.getDescription())
                     .set(ADS.PRICE, ad.getPrice())
                     .set(ADS.CATEGORY_ID, ad.getCategoryId())
-                    .set(ADS.USER_ID, ad.getUserId())
                     .set(ADS.STATUS, ad.getStatus().name())
                     .set(ADS.UPDATED_AT, now)
                     .set(ADS.AREA, ad.getArea() != null ? ad.getArea().name() : null)
@@ -90,12 +88,12 @@ public class AdRepository {
                 .map(this::mapToAd);
     }
 
-    public List<Ad> findByUserId(Long userId) {
-        return dsl.selectFrom(ADS)
-                .where(ADS.USER_ID.eq(userId))
-                .fetch()
-                .map(this::mapToAd);
-    }
+//    public List<Ad> findByUserId(Long userId) {
+//        return dsl.selectFrom(ADS)
+//                .where(ADS.USER_ID.eq(userId))
+//                .fetch()
+//                .map(this::mapToAd);
+//    }
 
     public List<Ad> findByCategoryIdAndStatus(Long categoryId, AdStatus status) {
         return dsl.selectFrom(ADS)
@@ -105,13 +103,13 @@ public class AdRepository {
                 .map(this::mapToAd);
     }
 
-    public List<Ad> findByUserIdAndStatus(Long userId, AdStatus status) {
-        return dsl.selectFrom(ADS)
-                .where(ADS.USER_ID.eq(userId))
-                .and(ADS.STATUS.eq(status.name()))
-                .fetch()
-                .map(this::mapToAd);
-    }
+//    public List<Ad> findByUserIdAndStatus(Long userId, AdStatus status) {
+//        return dsl.selectFrom(ADS)
+//                .where(ADS.USER_ID.eq(userId))
+//                .and(ADS.STATUS.eq(status.name()))
+//                .fetch()
+//                .map(this::mapToAd);
+//    }
 
     public boolean existsById(Long id) {
         return dsl.fetchExists(
@@ -174,9 +172,9 @@ public class AdRepository {
             conditions.add(ADS.CATEGORY_ID.eq(request.getCategoryId()));
         }
 
-        if (request.getUserId() != null) {
-            conditions.add(ADS.USER_ID.eq(request.getUserId()));
-        }
+//        if (request.getUserId() != null) {
+//            conditions.add(ADS.USER_ID.eq(request.getUserId()));
+//        }
 
         if (request.getMinPrice() != null) {
             conditions.add(ADS.PRICE.ge(request.getMinPrice()));
@@ -227,7 +225,7 @@ public class AdRepository {
         ad.setDescription(record.getDescription());
         ad.setPrice(record.getPrice());
         ad.setCategoryId(record.getCategoryId());
-        ad.setUserId(record.getUserId());
+//        ad.setUserId(record.getUserId());
         ad.setStatus(AdStatus.valueOf(record.getStatus()));
         ad.setCreatedAt(record.getCreatedAt());
         ad.setUpdatedAt(record.getUpdatedAt());
