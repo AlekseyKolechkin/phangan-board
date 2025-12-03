@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Ad, Category } from '@/types/api';
-import { getCategories, createAd, updateAd } from '@/lib/api';
+import { getCategories, createAd } from '@/lib/api';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -69,12 +69,9 @@ export function AdForm({ ad, onSave, onCancel }: AdFormProps) {
         status: ad?.status || 'ACTIVE',
       };
 
-      let savedAd: Ad;
-      if (ad?.id) {
-        savedAd = await updateAd(ad.id, payload);
-      } else {
-        savedAd = await createAd(payload);
-      }
+      // Note: This component only supports creating new ads
+      // For editing, use EditAdPage which uses token-based authentication
+      const savedAd = await createAd(payload);
       onSave(savedAd);
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : t('adForm.saveError');

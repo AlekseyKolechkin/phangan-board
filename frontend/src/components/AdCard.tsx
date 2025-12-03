@@ -14,7 +14,6 @@ interface AdCardProps {
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
 const FILES_URL = API_URL.replace('/api', '');
 
-export function AdCard({ ad }: AdCardProps) {
 const localeMap: Record<string, Locale> = {
   en: enUS,
   de: de,
@@ -47,6 +46,7 @@ export function AdCard({ ad, onClick }: AdCardProps) {
     addSuffix: true,
     locale: currentLocale,
   });
+  const mainImage = ad.images?.[0];
 
   return (
     <Link to={`/ad/${ad.id}`} className="block">

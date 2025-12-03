@@ -11,7 +11,7 @@ function App() {
         <BrowserRouter>
             <div className="min-h-screen bg-gray-50">
                 <header className="bg-white shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4">
+                    <div className="max-w-7xl mx-auto py-6 px-4 flex items-center justify-between">
                         <Link to="/">
                             <h1 className="text-3xl font-bold text-gray-900">
                                 Phangan Board

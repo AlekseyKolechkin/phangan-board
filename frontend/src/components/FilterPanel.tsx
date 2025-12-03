@@ -178,12 +178,12 @@ export function FilterPanel({ filters, onFiltersChange, onApply }: FilterPanelPr
         </Select>
       </div>
 
-      <div className="flex gap-2 pt-2">
-        <Button onClick={handleApply} className="flex-1">
-          {t('common.apply')}
+      <div className="flex flex-wrap gap-2 pt-2">
+        <Button onClick={handleApply} className="flex-1 min-w-0">
+          <span className="truncate">{t('common.apply')}</span>
         </Button>
-        <Button onClick={handleReset} variant="outline" className="flex-1">
-          {t('common.reset')}
+        <Button onClick={handleReset} variant="outline" className="flex-1 min-w-0">
+          <span className="truncate">{t('common.reset')}</span>
         </Button>
       </div>
     </div>
